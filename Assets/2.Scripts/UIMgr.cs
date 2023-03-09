@@ -6,29 +6,48 @@ using UnityEngine.UI;
 
 public class UIMgr : MonoBehaviour
 {
+    private PlayerCtrl theplayerCtrl;
+
     public  GameObject go_MenuUI;
     public  GameObject go_OptionUI;
+
+    public InputField rotSpeedInput;
 
     public GameObject[] crosshair;
     public Color[] crosshairColor;
 
     private int currnetColorIndex = 0;
 
+    private const string NEWSENSIVITY = "rotSpeed";
+
     // Start is called before the first frame update
     void Start()
     {
+        theplayerCtrl = FindObjectOfType<PlayerCtrl>();
 
+        theplayerCtrl.rotSpeed = PlayerPrefs.GetFloat(NEWSENSIVITY, 1.0f);
+        rotSpeedInput.text = theplayerCtrl.rotSpeed.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            CallMenu();
+        }
+
+        if (float.TryParse(rotSpeedInput.text, out float newRotSpeed))
+        {
+            theplayerCtrl.rotSpeed = newRotSpeed;
+            PlayerPrefs.SetFloat("NEWSENSIVITY", newRotSpeed);
+        }
     }
 
     public void CallMenu()
     {
         GameManager.isPause = true;
+        GameManager.canMove = false;
         go_MenuUI.SetActive(true);
     }
 
@@ -92,9 +111,9 @@ public class UIMgr : MonoBehaviour
             Image[] images = crosshair[i].GetComponentsInChildren<Image>();
             foreach (Image image in images)
             {
-                //color.a = 1.0f;
                 image.color = color;
             }
         }
     }
+
 }

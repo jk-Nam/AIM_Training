@@ -8,7 +8,7 @@ public class PlayerCtrl : MonoBehaviour
 {    
     public Transform playerTr;
 
-    public  float rotSpeed = 1000;
+    public  float rotSpeed = 1.0f;
 
 
 
@@ -29,7 +29,7 @@ public class PlayerCtrl : MonoBehaviour
         Vector3 dir = new Vector3(-v, h, 0);
 
         Vector3 angle = transform.eulerAngles;
-        angle += dir * rotSpeed * Time.deltaTime;
+        angle += dir * rotSpeed * 1000 * Time.deltaTime;
         transform.eulerAngles = angle;
         }
     }
