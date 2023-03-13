@@ -25,8 +25,18 @@ public class UIMgr : MonoBehaviour
     {
         theplayerCtrl = FindObjectOfType<PlayerCtrl>();
 
-        theplayerCtrl.rotSpeed = PlayerPrefs.GetFloat(NEWSENSIVITY, 1.0f);
+        if (PlayerPrefs.HasKey("NEWSENSIVITY"))
+        {
+            theplayerCtrl.rotSpeed = PlayerPrefs.GetFloat("NEWSENSIVITY", 1.0f);
+            Debug.Log("NEWSENSIVITY를 불러왔습니다.");
+        }
+        else
+        {
+            Debug.Log("저장된 값이 없습니다.");
+        }
         rotSpeedInput.text = theplayerCtrl.rotSpeed.ToString();
+
+        rotSpeedInput.onEndEdit.AddListener(ValueChanged);
     }
 
     // Update is called once per frame
@@ -37,11 +47,18 @@ public class UIMgr : MonoBehaviour
             CallMenu();
         }
 
+
+    }
+
+    public void ValueChanged(string text)
+    {
         if (float.TryParse(rotSpeedInput.text, out float newRotSpeed))
         {
             theplayerCtrl.rotSpeed = newRotSpeed;
             PlayerPrefs.SetFloat("NEWSENSIVITY", newRotSpeed);
+            Debug.Log("마우스 감도가 변경되었습니다.");
         }
+
     }
 
     public void CallMenu()

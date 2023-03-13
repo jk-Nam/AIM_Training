@@ -16,6 +16,7 @@ public class PlayerCtrl : MonoBehaviour
     void Start()
     {
         //ScreenCenter = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
+ 
     }
 
     // Update is called once per frame
